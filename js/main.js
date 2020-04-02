@@ -19,7 +19,7 @@ $(document).ready(function() {
       // basemap: "topo"
     });
     // Add dynamic map service ******************************
-    let dynamicLayer = new ArcGISDynamicMapServiceLayer(state.url, {
+    let dynamicLayer = new ArcGISDynamicMapServiceLayer(dataObj.url, {
       opacity: 0.7
     });
 
@@ -48,7 +48,7 @@ $(document).ready(function() {
     function mapClick(point) {
       // build out map click query
       let q = new Query();
-      let qt = new QueryTask(state.url + "/0");
+      let qt = new QueryTask(dataObj.url + "/0");
       q.geometry = point.mapPoint;
       q.outFields = ["*"];
       q.returnGeometry = true;
@@ -63,7 +63,7 @@ $(document).ready(function() {
             })
           );
           // if click on polygon, push polygon ID to main object
-          state["cda-data-object"]["local-option-selections"].push(
+          dataObj["cda-data-object"]["local-option-selections"].push(
             e.features[0].attributes.fid_1
           );
 
@@ -78,17 +78,17 @@ $(document).ready(function() {
       // loop through all the field ID's and build where clause
       // we will use the where clause to query the Field_Crop_LUT Table
       let where = "";
-      $.each(state["cda-data-object"]["local-option-selections"], (i, v) => {
+      $.each(dataObj["cda-data-object"]["local-option-selections"], (i, v) => {
         where += `fid = ${v}`;
         if (
-          state["cda-data-object"]["local-option-selections"].length !=
+          dataObj["cda-data-object"]["local-option-selections"].length !=
           i + 1
         ) {
           where += ` OR `;
         }
       });
       let q = new Query();
-      let qt = new QueryTask(state.field_crop_join_url);
+      let qt = new QueryTask(dataObj.field_crop_join_url);
       //  q.outFields = ["Crop_LUT.CropName", "Crop_LUT.Nitr_EMC", "FINAL_Field_Crop_LUT.fid"];
       q.outFields = ["*"];
       q.returnGeometry = false;
@@ -104,8 +104,8 @@ $(document).ready(function() {
       // loop through all selected features and add a new object for each field
       $.each(features, function(i, v) {
         let fid = v.attributes.fid;
-        if (!state["cda-data-object"]["fieldSelectedstateect"].fid) {
-          state["cda-data-object"]["fieldSelectedstateect"][fid] = {};
+        if (!dataObj["cda-data-object"]["fieldSelectedDataObject"].fid) {
+          dataObj["cda-data-object"]["fieldSelectedDataObject"][fid] = {};
         }
       });
       // loop through all selected features and add nutrient load to each field object
@@ -122,18 +122,18 @@ $(document).ready(function() {
         let phosLoad = phosEMC * annualPrecip * cropAcres * convFactor;
         let nitLoad = nitEMC * annualPrecip * cropAcres * convFactor;
         // if crop name is not already in the data object, add cropname =  new {}
-        if(state["cda-data-object"]["fieldSelectedstateect"][fid].cropName != cropName){
-          state["cda-data-object"]["fieldSelectedstateect"][fid][cropName] = {}
+        if(dataObj["cda-data-object"]["fieldSelectedDataObject"][fid].cropName != cropName){
+          dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName] = {}
         }
         // per crop, add in other variables to the objcte, including loads
-        state["cda-data-object"]["fieldSelectedstateect"][fid][cropName].cropID = cropID
-        state["cda-data-object"]["fieldSelectedstateect"][fid][cropName].acres = cropAcres
-        state["cda-data-object"]["fieldSelectedstateect"][fid][cropName].nit_load = nitLoad
-        state["cda-data-object"]["fieldSelectedstateect"][fid][cropName].phos_load = phosLoad
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].cropID = cropID
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].acres = cropAcres
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].nit_load = nitLoad
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].phos_load = phosLoad
         
       });
       // calculate total nutrient loads
-      $.each(state["cda-data-object"]["fieldSelectedstateect"], function(i,v){
+      $.each(dataObj["cda-data-object"]["fieldSelectedDataObject"], function(i,v){
         let totalNitLoad = 0;
         let totalPhosLoad = 0;
         $.each(v, function(i,k){
@@ -161,7 +161,7 @@ $(document).ready(function() {
       // empty the selection wrapper
       $(".bmp-selection-box-wrapper").empty();
       // loop through the selected field object and build BMP selection boxes
-      $.each(state["cda-data-object"]["fieldSelectedstateect"], function(i,v){
+      $.each(dataObj["cda-data-object"]["fieldSelectedDataObject"], function(i,v){
         let html = `<div data-field_ID="${i}" class="bmp-selection-box">`;
           html += `<div class="bmp-box-header">Field ID: ${i} - P Load: ${v.totalPhosLoad} - N Load: ${v.totalNitLoad}</div>`;
           // add in BMP Dropdown
