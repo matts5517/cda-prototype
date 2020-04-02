@@ -38,4 +38,3 @@ $.each(bmp_lut_table, function (i,v) {
   bmpDDHTML += `<option data-bmp-options="${myJSON}">${v.BMP_Short}</option>`;
 });
 bmpDDHTML += `</select>`;
-t
