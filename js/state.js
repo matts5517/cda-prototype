@@ -1,4 +1,4 @@
-dataObj = {
+state = {
   url:
     "https://cumulus.tnc.org/arcgis/rest/services/nascience/CDA_feature_service_prototype/MapServer",
   field_crop_join_url:
@@ -25,7 +25,7 @@ dataObj = {
     sed_method: "",
     "baseline-option": true,
     "alternate-option": "",
-    fieldSelectedDataObject: {}
+    fieldSelectedstateect: {}
   }
 };
 
