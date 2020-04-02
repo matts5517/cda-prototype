@@ -1,0 +1,68 @@
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  color: #5d6165;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.header-wrapper {
+  background-color: #457545;
+  height: 45px;
+  width: 100%;
+  border-bottom: 1px solid black;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.main-content-wrapper {
+  display: flex;
+  height: calc(100% - 45px);
+}
+.sidebar-wrapper {
+  width: 350px;
+  border-right: 1px solid black;
+  overflow-y: auto;
+}
+.sidebar-wrapper h4 {
+  margin: 10px 0 10px 10px;
+}
+.map-wrapper {
+  width: calc(100% - 350px);
+}
+.main-settings-wrapper{
+
+}
+.bmp-selection-wrapper{
+  display: none;
+}
+.bmp-select-wrapper{
+  padding: 5px;
+  margin: 5px;
+  background-color: rgba(100,100,100,.4);
+}
+.bmp-selection-box{
+  border: 1px solid black;
+  margin: 5px;
+  padding: 5px;
+}
+.selected-fields-wrapper {
+  margin-left: 20px;
+}
+.delivery-method-wrapper,
+.parameters-wrapper,
+.comparison-type-wrapper {
+  margin-left: 20px;
+}
+.sediment-params {
+  margin-left: 10px;
+}
+.select-bmp-button {
+  margin-left: 30px;
+  margin-top: 20px;
+}
