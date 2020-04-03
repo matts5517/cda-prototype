@@ -73,7 +73,7 @@ $(document).ready(function() {
     }
     // ****************************************************************************************************
     // bpmLogic functions *************************************************************
-    // build where clause and query 
+    // build where clause and query
     function fieldCropTableQuery() {
       // loop through all the field ID's and build where clause
       // we will use the where clause to query the Field_Crop_LUT Table
@@ -96,6 +96,8 @@ $(document).ready(function() {
       qt.execute(q, function(e) {
         if (e.features.length > 0) {
           calculateNutrientLoad(e.features);
+        } else {
+          // there were no fields selected
         }
       });
     }
@@ -111,37 +113,52 @@ $(document).ready(function() {
       // loop through all selected features and add nutrient load to each field object
       $.each(features, function(i, v) {
         let fid = v.attributes.fid;
-        let cropName = v.attributes.CropName
-        let cropID = v.attributes.crop_id
+        let cropName = v.attributes.CropName;
+        let cropID = v.attributes.crop_id;
         let cropAcres = v.attributes.CropArea_acres;
         let annualPrecip = v.attributes.AnnPrecip_in;
         let phosEMC = v.attributes.Phos_EMC;
         let nitEMC = v.attributes.Nitr_EMC;
-        let convFactor = 0.000113
+        let convFactor = 0.000113;
         // calculate load values
         let phosLoad = phosEMC * annualPrecip * cropAcres * convFactor;
         let nitLoad = nitEMC * annualPrecip * cropAcres * convFactor;
         // if crop name is not already in the data object, add cropname =  new {}
-        if(dataObj["cda-data-object"]["fieldSelectedDataObject"][fid].cropName != cropName){
-          dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName] = {}
+        if (
+          dataObj["cda-data-object"]["fieldSelectedDataObject"][fid].cropName !=
+          cropName
+        ) {
+          dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][
+            cropName
+          ] = {};
         }
         // per crop, add in other variables to the objcte, including loads
-        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].cropID = cropID
-        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].acres = cropAcres
-        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].nit_load = nitLoad
-        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][cropName].phos_load = phosLoad
-        
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][
+          cropName
+        ].cropID = cropID;
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][
+          cropName
+        ].acres = cropAcres;
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][
+          cropName
+        ].nit_load = nitLoad;
+        dataObj["cda-data-object"]["fieldSelectedDataObject"][fid][
+          cropName
+        ].phos_load = phosLoad;
       });
       // calculate total nutrient loads
-      $.each(dataObj["cda-data-object"]["fieldSelectedDataObject"], function(i,v){
+      $.each(dataObj["cda-data-object"]["fieldSelectedDataObject"], function(
+        i,
+        v
+      ) {
         let totalNitLoad = 0;
         let totalPhosLoad = 0;
-        $.each(v, function(i,k){
+        $.each(v, function(i, k) {
           totalNitLoad += k.nit_load;
-          totalPhosLoad += k.phos_load
+          totalPhosLoad += k.phos_load;
         });
-        v.totalNitLoad = totalNitLoad
-        v.totalPhosLoad = totalPhosLoad
+        v.totalNitLoad = totalNitLoad;
+        v.totalPhosLoad = totalPhosLoad;
       });
       // once everything has been calulated, start building BMP GUI
       displayFieldsForBMPSelection();
@@ -155,37 +172,45 @@ $(document).ready(function() {
       $(".selected-fields-wrapper").append(html);
     }
     // create the agricultural field selection box in the BMP selection area
-    function displayFieldsForBMPSelection(){
+    function displayFieldsForBMPSelection() {
       // show the bmp section of the app
       showBMPSelection();
       // empty the selection wrapper
       $(".bmp-selection-box-wrapper").empty();
       // loop through the selected field object and build BMP selection boxes
-      $.each(dataObj["cda-data-object"]["fieldSelectedDataObject"], function(i,v){
+      $.each(dataObj["cda-data-object"]["fieldSelectedDataObject"], function(
+        i,
+        v
+      ) {
         let html = `<div data-field_ID="${i}" class="bmp-selection-box">`;
-          html += `<div class="bmp-box-header">Field ID: ${i} - P Load: ${v.totalPhosLoad} - N Load: ${v.totalNitLoad}</div>`;
-          // add in BMP Dropdown
-          html += `<div class="bmp-select-wrapper">`
-          html += `${bmpDDHTML}`;
-          html+= `</div>`
-          html += `</div>`;
+        html += `<div class="bmp-box-header">Field ID: ${i} - P Load: ${v.totalPhosLoad} - N Load: ${v.totalNitLoad}</div>`;
+        // add in BMP Dropdown
+        html += `<div class="bmp-select-wrapper">`;
+        html += `${bmpDDHTML}`;
+        html += `</div>`;
+        html += `</div>`;
         $(".bmp-selection-box-wrapper").append(html);
       });
     }
     // when a user selects a BMP from the dropdown menu
     function bmpDropdownChange(evt) {
       // add a select menu attribute marked as yes
-      $($(evt.currentTarget).parent()[0]).data('selected', 'yes');
-      let parentBox = $(evt.currentTarget).parent().parent();
+      $($(evt.currentTarget).parent()[0]).data("selected", "yes");
+      let parentBox = $(evt.currentTarget)
+        .parent()
+        .parent();
       // remove all bmp boxes that are not marked as selected
-      $.each($(parentBox).find('.bmp-select-wrapper'), function(i, v) {
-        if($(v).data()['selected'] != 'yes'){
+      $.each($(parentBox).find(".bmp-select-wrapper"), function(i, v) {
+        if ($(v).data()["selected"] != "yes") {
           $(v).remove();
         }
       });
-      // append a non selected bmp box 
+      // append a non selected bmp box
       let html = `<div class="bmp-select-wrapper">${bmpDDHTML}</div>`;
-      $(evt.currentTarget).parent().parent().append(html)
+      $(evt.currentTarget)
+        .parent()
+        .parent()
+        .append(html);
     }
 
     // show hide BMP selection wrapper
@@ -204,9 +229,9 @@ $(document).ready(function() {
     $(".select-bmp-button").on("click", evt => {
       fieldCropTableQuery();
     });
-    
+
     // on go back to main settings button click
-    $(".go-back-to-settings").on('click', (evt)=>{
+    $(".go-back-to-settings").on("click", evt => {
       hideBMPSelection();
     });
 
