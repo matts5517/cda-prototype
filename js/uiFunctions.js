@@ -9,9 +9,10 @@ function buildBMPdropdown() {
   bmpDDHTML += `</select>`;
   return bmpDDHTML;
 }
-// build out the html code for the BMP dropdown
+// build out the html code for the BMP dropdown initialy
 const bmpDDHTML = buildBMPdropdown();
 
+// create the BMP selection box
 function createBMPSelectionBoxes(i, v) {
   let html = `<div data-field_ID="${i}" class="bmp-selection-box">`;
   html += `<div class="bmp-box-header">Field ID: ${i} - P Load: ${v.totalPhosLoad} - N Load: ${v.totalNitLoad}</div>`;
