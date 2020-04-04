@@ -1,4 +1,4 @@
-dataObj = {
+state = {
   url:
     "https://cumulus.tnc.org/arcgis/rest/services/nascience/CDA_feature_service_prototype/MapServer",
   field_crop_join_url:
@@ -28,12 +28,3 @@ dataObj = {
     fieldSelectedDataObject: {}
   }
 };
-
-// create the BMP dropdown HTML
-let bmpDDHTML = `<select class="bmp-dropdown">`;
-bmpDDHTML += `<option value="" disabled selected>Select a BMP</option>`;
-$.each(bmp_lut_table, function(i, v) {
-  var myJSON = JSON.stringify(v);
-  bmpDDHTML += `<option data-bmp-options="${myJSON}">${v.BMP_Short}</option>`;
-});
-bmpDDHTML += `</select>`;
