@@ -4,7 +4,6 @@ state = {
   field_crop_join_url:
     "https://cumulus.tnc.org/arcgis/rest/services/nascience/CDA_feature_service_prototype/MapServer/4",
   visibleLayers: [5],
-  appAreaVisible: "main",
   "cda-data-object": {
     "area-selected-counter": 0,
     "area-selected": "",
@@ -22,9 +21,9 @@ state = {
     "nitrogen-option": true,
     "phosphorus-option": false,
     "sediment-option": false,
-    sed_method: "",
+    "sed-method": "",
     "baseline-option": true,
     "alternate-option": "",
-    fieldSelectedDataObject: {}
-  }
+    fieldSelectedDataObject: {},
+  },
 };
