@@ -53,9 +53,12 @@ state.displaySelectedFields = function () {
 state.bmpDropdownChange = function (evt) {
   // add a select menu attribute marked as yes
   $($(evt.currentTarget).parent()[0]).data("selected", "yes");
-  let parentBox = $(evt.currentTarget).parent().parent();
+  let bmpSelectWrapper = $(evt.currentTarget)
+    .parent()
+    .parent()
+    .find(".bmp-select-wrapper");
   // remove all bmp boxes that are not marked as selected
-  $.each($(parentBox).find(".bmp-select-wrapper"), function (i, v) {
+  $.each(bmpSelectWrapper, function (i, v) {
     if ($(v).data()["selected"] != "yes") {
       $(v).remove();
     }
@@ -64,6 +67,7 @@ state.bmpDropdownChange = function (evt) {
   let html = `<div class="bmp-select-wrapper">${state.bmpDDHTML}</div>`;
   $(evt.currentTarget).parent().parent().append(html);
 };
+
 // show hide BMP selection wrapper
 state.showBMPSelection = function () {
   $(".main-settings-wrapper").hide();

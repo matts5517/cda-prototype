@@ -17,37 +17,39 @@ require([
   QueryTask,
   Graphic
 ) {
-  // init map ******************************************************************************************
-  const map = new Map("map", {
-    center: [-93.5, 30.16],
-    zoom: 16,
-    // basemap: "topo"
-  });
-  // Add dynamic map service ******************************
-  const dynamicLayer = new ArcGISDynamicMapServiceLayer(state.url, {
-    opacity: 0.7,
-  });
-
-  const selectionSymbol = new SimpleFillSymbol(
-    SimpleFillSymbol.STYLE_SOLID,
-    new SimpleLineSymbol(
-      SimpleLineSymbol.STYLE_SOLID,
-      new Color([0, 255, 255]),
-      2
-    ),
-    new Color([0, 255, 255, 0.1])
-  );
-  // add dynamic layer to map and set visible layers ************************************************************************
-  map.addLayer(dynamicLayer);
-  dynamicLayer.setVisibleLayers([0]);
-  // wait until layer is loaded fully before allowing map interaction ************************
-  dynamicLayer.on("load", function () {
-    layersArray = dynamicLayer.layerInfos;
-    console.log(map);
-    map.on("click", (point) => {
-      state.mapClick(point);
+  state.initMap = function () {
+    // init map ******************************************************************************************
+    state.map = new Map("map", {
+      center: [-93.5, 30.16],
+      zoom: 16,
+      // basemap: "topo"
     });
-  });
+    // Add dynamic map service ******************************
+    state.dynamicLayer = new ArcGISDynamicMapServiceLayer(state.url, {
+      opacity: 0.7,
+    });
+
+    state.selectionSymbol = new SimpleFillSymbol(
+      SimpleFillSymbol.STYLE_SOLID,
+      new SimpleLineSymbol(
+        SimpleLineSymbol.STYLE_SOLID,
+        new Color([0, 255, 255]),
+        2
+      ),
+      new Color([0, 255, 255, 0.1])
+    );
+    // add dynamic layer to map and set visible layers ************************************************************************
+    state.map.addLayer(state.dynamicLayer);
+    state.dynamicLayer.setVisibleLayers([0]);
+    // wait until layer is loaded fully before allowing map interaction ************************
+    state.dynamicLayer.on("load", function () {
+      const layersArray = state.dynamicLayer.layerInfos;
+      state.map.on("click", (point) => {
+        state.mapClick(point);
+      });
+    });
+  };
+
   // build where clause and query
   state.fieldCropTableQuery = function () {
     // loop through all the field ID's and build where clause
@@ -68,6 +70,7 @@ require([
       if (e.features.length > 0) {
         state.calculateNutrientLoad(e.features).then(function () {
           // once everything has been calulated, start building BMP GUI
+          console.log(state["cda-data-object"]["fieldSelectedDataObject"]);
           state.displayFieldsForBMPSelection();
         });
       } else {
@@ -98,8 +101,8 @@ require([
   // add graphics to web map
   state.addGraphicsToMap = function (featureGeom, id) {
     // add a selected graphic to the selected polygon
-    map.graphics.add(
-      new Graphic(featureGeom, selectionSymbol, {
+    state.map.graphics.add(
+      new Graphic(featureGeom, state.selectionSymbol, {
         id: id,
       })
     );
