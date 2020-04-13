@@ -57,46 +57,47 @@
 //
 //
 
-// class sytax
-class Product {
-  constructor(id, name, price) {
-    this.id = id;
-    this.name = name;
-    this.price = price;
-    this.price2 = this.price * 3;
-  }
+// // class sytax
+// class Product {
+//   constructor(id, name, price) {
+//     this.id = id;
+//     this.name = name;
+//     this.price = price;
+//     this.price2 = this.price * 3;
+//   }
 
-  set priceUpdate(price) {
-    this.price = price;
-    this.price2 = price * 3;
-  }
-  get priceTotal() {
-    return this.price + this.price2;
-  }
+//   set priceUpdate(price) {
+//     this.price = price;
+//     this.price2 = price * 3;
+//   }
+//   get priceTotal() {
+//     return this.price + this.price2;
+//   }
 
-  aMethod() {
-    this.priceUpdate = 99;
-    console.log("method call", this.name);
-  }
-}
+//   aMethod() {
+//     this.priceUpdate = 99;
+//     console.log("method call", this.name);
+//   }
+// }
 
-// create a new object
-const pillow = new Product(54, "Pillow", 19.95);
-console.log(pillow);
-console.log(pillow.priceTotal);
+// // create a new object
+// const pillow = new Product(54, "Pillow", 19.95);
+// console.log(pillow);
+// console.log(pillow.priceTotal);
 
-pillow.aMethod(); // call a method
-console.log(pillow.priceTotal);
+// pillow.aMethod(); // call a method
+// console.log(pillow.priceTotal);
 
-class ProductList {
-  constructor() {
-    this.productList = [];
-  }
+// class ProductList {
+//   constructor() {
+//     this.productList = [];
+//   }
 
-  updateProductList() {
-    console.log("update product list method call");
-  }
-}
+//   updateProductList() {
+//     console.log("update product list method call");
+//   }
+// }
+
 // // test area for learning oop
 // console.log("hey OOP");
 
