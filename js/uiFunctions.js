@@ -1,3 +1,14 @@
+class SelectedFields {
+  constructor(fields) {
+    this.fields = fields;
+  }
+  render() {}
+}
+
+class Field {
+  constructor(data) {}
+}
+
 state.buildBMPdropdown = function () {
   // create the BMP dropdown HTML
   let bmpDDHTML = `<select class="bmp-dropdown">`;
@@ -41,11 +52,11 @@ state.displayFieldsForBMPSelection = function () {
 
 // display fields that have been selected in the main section of the app when a user clicks on the map
 state.displaySelectedFields = function () {
-  $(".selected-fields-wrapper").empty();
+  $(".selected-fields").empty();
   const field_selections = state["cda-data-object"]["local-option-selections"];
   $.each(field_selections, (i, v) => {
     let html = `<div>Field ID: ${v}</div>`;
-    $(".selected-fields-wrapper").append(html);
+    $(".selected-fields").append(html);
   });
 };
 

@@ -35,23 +35,22 @@ html {
 .map-wrapper {
   width: calc(100% - 350px);
 }
-.main-settings-wrapper{
-
+.main-settings-wrapper {
 }
-.bmp-selection-wrapper{
+.bmp-selection-wrapper {
   display: none;
 }
-.bmp-select-wrapper{
+.bmp-select-wrapper {
   padding: 5px;
   margin: 5px;
-  background-color: rgba(100,100,100,.4);
+  background-color: rgba(100, 100, 100, 0.4);
 }
-.bmp-selection-box{
+.bmp-selection-box {
   border: 1px solid black;
   margin: 5px;
   padding: 5px;
 }
-.selected-fields-wrapper {
+.selected-fields {
   margin-left: 20px;
 }
 .delivery-method-wrapper,
