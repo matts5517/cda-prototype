@@ -17,6 +17,11 @@ require([
   QueryTask,
   Graphic
 ) {
+  const test = new Test();
+  test.render();
+  test.render2();
+  console.log(test);
+
   state.initMap = function () {
     // init map ******************************************************************************************
     state.map = new Map("map", {

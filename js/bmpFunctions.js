@@ -1,3 +1,13 @@
+function Test() {
+  this.test = "test";
+  this.render = function () {
+    console.log("render", this.test);
+  };
+}
+Test.prototype.render2 = function () {
+  console.log("test prototype");
+};
+
 // loop through all selected fields and calculate nutrient load for each crop and the total for field
 state.calculateNutrientLoad = function (features) {
   return new Promise(function (resolve, reject) {
